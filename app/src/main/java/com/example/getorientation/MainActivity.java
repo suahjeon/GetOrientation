@@ -17,18 +17,6 @@ public class MainActivity extends AppCompatActivity {
     SensorEventListener listener;
 
     private float[] magValues ,accValues;
-    @Override
-    protected void onPause(){
-        MainActivity.super.onPause();
-        Toast.makeText(getApplicationContext(),"-180",Toast.LENGTH_SHORT);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        MainActivity.super.onPause();
-        Toast.makeText(getApplicationContext(), "-180", Toast.LENGTH_SHORT);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +81,19 @@ public class MainActivity extends AppCompatActivity {
         sensorManager.registerListener(listener, accSensor, sensorManager.SENSOR_DELAY_UI);
 
     }
+    @Override
+    protected void onPause(){
+        super.onPause();
+       sensorManager.unregisterListener(listener);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        sensorManager.unregisterListener(listener);
+    }
+
+
 
     private Object radian2Degree(float radian) {
         return radian * 180 / (float)Math.PI;
